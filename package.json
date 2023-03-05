@@ -3,15 +3,43 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.17",
+    "@chakra-ui/react": "^2.4.9",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@next/font": "^13.1.6",
     "date-fns": "^2.29.3",
+    "eslint-config-next": "^13.2.3",
+    "framer-motion": "^9.0.2",
     "gray-matter": "^4.0.3",
+    "i18next": "^22.4.10",
+    "lodash": "^4.17.21",
     "next": "latest",
+    "next-i18next": "^13.2.1",
+    "overmind": "27.0.0",
+    "overmind-react": "^28.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-flag-kit": "^1.1.1",
+    "react-i18next": "^12.2.0",
+    "react-icons": "^4.7.1",
     "remark": "^14.0.2",
-    "remark-html": "^15.0.1"
+    "remark-html": "^15.0.1",
+    "swiper": "^9.0.5",
+    "typescript": "^4.9.5",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "18.0.27",
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "eslint": "^8.35.0",
+    "eslint-config-prettier": "^8.6.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2",
+    "prettier": "^2.8.4"
   }
 }
