@@ -10,12 +10,10 @@ import {
 } from '@chakra-ui/react'
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import { FlagIcon } from 'react-flag-kit'
-import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
 import { FlagIconCode } from 'react-flag-kit'
 
 function LanguageSelect() {
-  const { i18n } = useTranslation()
   const router = useRouter()
 
   const flag: FlagIconCode = router.locale === 'en' ? 'US' : 'ES'
@@ -37,7 +35,7 @@ function LanguageSelect() {
         <MenuList maxW="50px">
           <MenuItem
             onClick={() => {
-              i18n.changeLanguage('en')
+              router.push('/', '/', { locale: 'en' })
               setSelectedLanguage({
                 label: 'English',
                 flag: <FlagIcon code="US" />,
@@ -50,7 +48,7 @@ function LanguageSelect() {
           </MenuItem>
           <MenuItem
             onClick={() => {
-              i18n.changeLanguage('es')
+              router.push('/', '/', { locale: 'es' })
               setSelectedLanguage({
                 label: 'French',
                 flag: <FlagIcon code="ES" />,
