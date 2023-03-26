@@ -1,0 +1,1 @@
+export { SplitTextAnimation } from './TextAnimations'

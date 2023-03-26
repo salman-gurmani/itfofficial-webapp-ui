@@ -1,4 +1,4 @@
-import { PrimaryLayout } from '../../components/Layout/Layout'
+import { ModalLayout, PrimaryLayout } from '../../components/Layout/Layout'
 import { Text, Box, HStack, Button } from '@chakra-ui/react'
 import { Carousel } from '../../components/Swiper'
 import styled from '@emotion/styled'
@@ -8,6 +8,7 @@ import { HomeImages } from '../../components/Images'
 import React from 'react'
 import { SocialMedia } from '../../components/SocialMedia'
 import { useTranslation } from 'next-i18next'
+import { Loading } from '../../components/Loading'
 const MembershipContainer = styled(Box)({
   display: 'flex',
   flexDirection: 'row',
@@ -24,10 +25,14 @@ const Home = () => {
   const [groupMemberHover, setGroupMemberHover] = React.useState(false)
   const [singleMemberHover, setSingleMemberHover] = React.useState(false)
   const [danFormHover, setDanFormHover] = React.useState(false)
+
   const { t } = useTranslation()
   return (
     <PrimaryLayout>
+      <Loading />
       <Carousel />
+
+      <ModalLayout />
       <Box position="absolute" top={240} right={2} zIndex={2}>
         <SocialMedia flexDirection="column" />
       </Box>

@@ -1,1 +1,1 @@
-export { PrimaryLayout } from './Layout'
+export { PrimaryLayout, ModalLayout } from './Layout'

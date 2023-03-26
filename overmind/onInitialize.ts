@@ -1,5 +1,4 @@
-export const onInitialize = async ({}) => {
-  /**
-   * Use effects and other actions onInitialize
-   */
+export const onInitialize = async ({ effects }) => {
+  console.log('onInitialized called')
+  effects.api.initialize()
 }

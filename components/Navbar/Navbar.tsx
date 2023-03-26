@@ -13,7 +13,15 @@ import {
   PopoverContent,
   useColorModeValue,
   useDisclosure,
+  Menu,
+  MenuButton,
+  MenuItem,
+  Avatar,
+  MenuList,
+  MenuDivider,
+  HStack,
 } from '@chakra-ui/react'
+import { MdOutlineLogout } from 'react-icons/md'
 import {
   HamburgerIcon,
   CloseIcon,
@@ -28,9 +36,12 @@ import { HomeImages } from '../Images'
 import { PrimaryButton } from '../uikit'
 import { LanguageSelect } from '../LangaugeSelect'
 import { useTranslation } from 'next-i18next'
+import { useActions, useAppState } from '../../overmind'
 const NavigationBar = () => {
+  const state = useAppState()
+
+  const { user } = state
   const { isOpen, onToggle } = useDisclosure()
-  const { t } = useTranslation()
 
   const boxStyle = css`
     width: 100%;
@@ -96,12 +107,8 @@ const NavigationBar = () => {
           spacing={2}
         >
           <LanguageSelect />
-          <PrimaryButton fontFamily="kanit" rightIcon={<ArrowForwardIcon />}>
-            {t('login')}
-          </PrimaryButton>
-          <Button colorScheme="red" fontFamily="kanit" variant="outline">
-            {t('createAnAccount')}
-          </Button>
+          {user && <UserProfile />}
+          {!user && <SignOutUser />}
         </Stack>
       </Flex>
 
@@ -111,7 +118,30 @@ const NavigationBar = () => {
     </Box>
   )
 }
-
+const SignOutUser = () => {
+  const actions = useActions()
+  const { t } = useTranslation()
+  return (
+    <>
+      {' '}
+      <PrimaryButton
+        fontFamily="kanit"
+        onClick={() => actions.activeSignInModal(true)}
+        rightIcon={<ArrowForwardIcon />}
+      >
+        {t('login')}
+      </PrimaryButton>
+      <Button
+        colorScheme="red"
+        onClick={() => actions.activeSignUpModal(true)}
+        fontFamily="kanit"
+        variant="outline"
+      >
+        {t('createAnAccount')}
+      </Button>
+    </>
+  )
+}
 const DesktopNav = () => {
   const linkColor = useColorModeValue('black', 'black')
   const linkHoverColor = useColorModeValue('red', 'white')
@@ -127,7 +157,7 @@ const DesktopNav = () => {
                 href={navItem.href ?? '#'}
                 fontSize={{ base: 'xs', sm: 'xs', md: 'xs', xl: 'sm' }}
                 fontFamily="kanit"
-                fontWeight={600}
+                fontWeight={500}
                 color={linkColor}
                 outline="none"
                 position="relative"
@@ -179,6 +209,8 @@ const DesktopNav = () => {
 }
 
 const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
+  const { t } = useTranslation()
+
   return (
     <Link
       href={href}
@@ -200,7 +232,7 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
             fontSize="xs"
             fontWeight={600}
           >
-            {label}
+            {t(label)}
           </Text>
           <Text fontSize={'sm'}>{subLabel}</Text>
         </Box>
@@ -354,5 +386,41 @@ const NAV_ITEMS: Array<NavItem> = [
     ],
   },
 ]
+const UserProfile = () => {
+  const actions = useActions()
+  const state = useAppState()
+  return (
+    <Flex alignItems={'center'} padding={4} margin={8}>
+      <Menu>
+        <MenuButton
+          as={Button}
+          rounded={'full'}
+          variant={'link'}
+          cursor={'pointer'}
+          minW={0}
+        >
+          <Text>{state.user.displayName}</Text>
+          <Avatar
+            size={'md'}
+            src={
+              'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
+            }
+          />
+        </MenuButton>
+        <MenuList>
+          <MenuItem>Link 1</MenuItem>
+          <MenuItem>Link 2</MenuItem>
+          <MenuDivider />
+          <MenuItem onClick={() => actions.signOut()}>
+            <HStack>
+              <Icon as={MdOutlineLogout} />
+              <Text>Logout</Text>
+            </HStack>
+          </MenuItem>
+        </MenuList>
+      </Menu>
+    </Flex>
+  )
+}
 
 export { NavigationBar }

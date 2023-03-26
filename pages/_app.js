@@ -47,6 +47,7 @@ class MyApp extends App {
     // This runs whenever the client routes to a new page
     this.overmind.actions.changePage(this.props.pageProps.mutations || [])
   }
+
   render() {
     const { Component, pageProps } = this.props
     return (

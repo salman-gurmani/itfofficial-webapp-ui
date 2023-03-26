@@ -1,6 +1,10 @@
 import styled from '@emotion/styled'
 import { Footer } from '../Footer'
 import { Header } from '../Header'
+import { SignIn } from '../SignIn'
+import { SignupModal } from '../SignupModal'
+import { Box } from '@chakra-ui/react'
+import { ForgotPasswordModal } from '../ForgotPassword'
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -21,5 +25,14 @@ const PrimaryLayout = ({ children }) => {
     </LayoutContainer>
   )
 }
+const ModalLayout = () => {
+  return (
+    <Box>
+      <SignIn />
+      <SignupModal />
+      <ForgotPasswordModal />
+    </Box>
+  )
+}
 
-export { PrimaryLayout }
+export { PrimaryLayout, ModalLayout }
