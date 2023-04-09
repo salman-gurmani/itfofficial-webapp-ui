@@ -1,23 +1,22 @@
-import { rehydrate } from 'overmind'
+import { User as FirebaseUser } from 'firebase/auth'
 import { getAuth } from 'firebase/auth'
 import { ProfileType, SignInFormTypes, SignUpFormTypes } from './types'
 import { Context } from '.'
-export const onInitializeOvermind = async ({ effects, state }: Context) => {
+import { rehydrate } from 'overmind'
+
+export const onInitializeOvermind = async ({ effects, actions }: Context) => {
   effects.apiEffects.initialize()
-  getAuth().onAuthStateChanged((user) => {
-    state.user = user
-    state.isLoading = false
-  })
+  actions.fetchUser()
 }
-export const changePage = ({ state }, mutations) => {
+export const changePage = async ({ state, actions }, mutations) => {
   rehydrate(state, mutations || [])
 
   switch (state.page) {
     case 'Index':
       // Do some additional logic
       break
-    case 'About':
-      // Do some additional logic
+    case 'singlemembership':
+      actions.fetchUser(mutations)
       break
     default:
       break
@@ -86,4 +85,15 @@ export const resetPassword = async ({ effects }: Context, { email }) => {
 }
 export const signOut = ({ effects }: Context) => {
   return effects.apiEffects.logout()
+}
+export const fetchUser = async ({ state }: Context): Promise<FirebaseUser> => {
+  return new Promise((resolve) => {
+    const unsubscribe = getAuth().onAuthStateChanged((user) => {
+      state.user = user
+      state.isLoading = false
+      unsubscribe()
+
+      resolve(state.user)
+    })
+  })
 }

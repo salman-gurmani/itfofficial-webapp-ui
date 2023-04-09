@@ -1,14 +1,12 @@
 import { User as FirebaseUser } from 'firebase/auth'
-export type Page = 'Index'
 
 export interface State {
-  page?: Page
+  page?: string
   isSignInModal: boolean
   isSignUpModalOpen: boolean
   isForgotModalOpen: boolean
   user: FirebaseUser | null
   isLoading: boolean
-  items: []
 }
 
 export interface SignUpFormTypes {

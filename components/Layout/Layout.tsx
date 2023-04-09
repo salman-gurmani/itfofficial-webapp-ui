@@ -25,6 +25,7 @@ const PrimaryLayout = ({ children }) => {
     </LayoutContainer>
   )
 }
+
 const ModalLayout = () => {
   return (
     <Box>

@@ -1,6 +1,6 @@
 import '../styles/global.css'
 import { ChakraProvider } from '@chakra-ui/react'
-import { Kanit } from '@next/font/google'
+import { Kanit, Lato, Roboto, Vollkorn } from '@next/font/google'
 import { extendTheme } from '@chakra-ui/react'
 import { createOvermind, createOvermindSSR, rehydrate } from 'overmind'
 import { Provider } from 'overmind-react'
@@ -14,10 +14,33 @@ const kanit = Kanit({
   subsets: ['latin'],
   weight: ['400', '700'],
 })
+const lato = Lato({
+  subsets: ['latin'],
+  weight: ['100', '300', '400', '700', '900'],
+})
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['100', '300', '400', '700', '900'],
+})
+const vollkorn = Vollkorn({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+})
 
 const theme = extendTheme({
   fonts: {
     kanit: kanit.style.fontFamily,
+    lato: lato.style.fontFamily,
+    roboto: roboto.style.fontFamily,
+    vollkorn: vollkorn.style.fontFamily,
+  },
+  styles: {
+    global: () => ({
+      body: {
+        color: 'default',
+        bg: '#FFFFFF',
+      },
+    }),
   },
 })
 
@@ -32,11 +55,13 @@ class MyApp extends App {
     if (typeof window !== 'undefined') {
       // On the client we just instantiate the Overmind instance and run
       // the "changePage" action
+
       this.overmind = createOvermind(config)
       this.overmind.actions.changePage(mutations)
     } else {
       // On the server we rehydrate the mutations to an SSR instance of Overmind,
       // as we do not want to run any additional logic here
+
       this.overmind = createOvermindSSR(config)
       rehydrate(this.overmind.state, mutations)
     }
@@ -50,6 +75,7 @@ class MyApp extends App {
 
   render() {
     const { Component, pageProps } = this.props
+
     return (
       <Provider value={this.overmind}>
         <ChakraProvider theme={theme}>
@@ -59,5 +85,6 @@ class MyApp extends App {
     )
   }
 }
+App.getInitialProps
 
 export default appWithTranslation(MyApp)

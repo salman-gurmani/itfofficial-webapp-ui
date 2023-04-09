@@ -1,0 +1,1 @@
+export { SlickCarousel } from './SlickCarousel'

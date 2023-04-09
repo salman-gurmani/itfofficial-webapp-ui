@@ -4,39 +4,50 @@ import { Box } from '@chakra-ui/react'
 
 const SocialMedia = ({ ...rest }) => {
   return (
-    <Box {...rest} display="flex" width="48px">
+    <Box
+      {...rest}
+      width="100%"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+    >
       <IconButton
         aria-label="Facebook"
-        icon={<FaFacebookF color="white" />}
+        icon={<FaFacebookF color="white" size={22} />}
         fill="white"
-        minH="48px"
+        width="42px"
+        height="42px"
+        minH="32px"
         background="rgba(0,0,0,0)"
-        borderRadius="50%"
+        borderRadius="100%"
         _hover={{ bg: 'facebook.600' }}
       />
       <IconButton
         aria-label="Twitter"
-        icon={<FaTwitter />}
+        icon={<FaTwitter size={22} />}
         color="white"
-        minH="48px"
+        width="42px"
+        height="42px"
         background="rgba(0,0,0,0)"
         borderRadius="50%"
         _hover={{ bg: 'twitter.600' }}
       />
       <IconButton
         aria-label="YouTube"
-        icon={<FaYoutube />}
+        icon={<FaYoutube size={22} />}
         color="white"
-        minH="48px"
+        width="42px"
+        height="42px"
         background="rgba(0,0,0,0)"
         borderRadius="50%"
         _hover={{ bg: '#c30000' }}
       />
       <IconButton
         aria-label="Instagram"
-        icon={<FaInstagram />}
+        icon={<FaInstagram size={22} />}
         color="white"
-        minH="48px"
+        width="42px"
+        height="42px"
         background="rgba(0,0,0,0)"
         borderRadius="50%"
         _hover={{

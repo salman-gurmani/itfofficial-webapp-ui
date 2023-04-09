@@ -12,6 +12,8 @@ import Image10 from '../../public/images/tour/DSC05141.jpg'
 import Image11 from '../../public/images/tour/DSC05152.jpg'
 import Image12 from '../../public/images/tour/DSC05154.jpg'
 import Image13 from '../../public/images/tour/DSC05270.jpg'
+import background from '../../public/images/welcome/background.jpg'
+
 // import Image14 from '../../public/images/tour/DSC05565.jpg'
 // import Image15 from '../../public/images/tour/DSC05632.jpg'
 // import Image16 from '../../public/images/tour/DSC05654.jpg'
@@ -83,7 +85,7 @@ import { ImageProps } from 'next/image'
 /**
  * Logo
  */
-import Logo from '../../public/images/logo/logo.png'
+import LogoComplete from '../../public/images/logo/logo_complete.png'
 
 type HomeImagesObject = {
   slider: ImageProps[]
@@ -91,6 +93,7 @@ type HomeImagesObject = {
   groupMembership: ImageProps
   singleMembership: ImageProps
   danFormImage: ImageProps
+  staticWelcome: ImageProps[]
 }
 
 export const HomeImages: HomeImagesObject = {
@@ -155,10 +158,14 @@ export const HomeImages: HomeImagesObject = {
       alt: 'Taekwondo participants bowing in respect',
     },
   ],
+  staticWelcome: [
+    { src: background, alt: 'Taekwondo participants in a sparring match' },
+  ],
   logo: {
-    src: Logo,
+    src: LogoComplete,
     alt: 'ITF Logo',
   },
+
   groupMembership: {
     src: groupMembership,
     alt: 'Group Member ',

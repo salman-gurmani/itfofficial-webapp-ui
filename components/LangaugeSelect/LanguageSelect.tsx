@@ -24,16 +24,21 @@ function LanguageSelect() {
   })
 
   return (
-    <Box zIndex={2}>
+    <Box zIndex={2} mt={1}>
       <Menu>
         <MenuButton>
           <HStack>
             {' '}
-            {selectedLanguage.flag} {selectedLanguage.label} <ChevronDownIcon />{' '}
+            {selectedLanguage.flag} {selectedLanguage.label}{' '}
+            <ChevronDownIcon color="black" />{' '}
           </HStack>
         </MenuButton>
-        <MenuList maxW="50px">
+        <MenuList minWidth="80px" padding={1} borderRadius="lg">
           <MenuItem
+            borderRadius="md"
+            color="black"
+            width="160px"
+            _hover={{ bg: 'gray.800', color: 'white' }}
             onClick={() => {
               router.push('/', '/', { locale: 'en' })
               setSelectedLanguage({
@@ -47,6 +52,11 @@ function LanguageSelect() {
             </HStack>
           </MenuItem>
           <MenuItem
+            borderRadius="md"
+            fontFamily="kanit"
+            fontWeight={400}
+            color="black"
+            _hover={{ bg: 'gray.800', color: 'white' }}
             onClick={() => {
               router.push('/', '/', { locale: 'es' })
               setSelectedLanguage({

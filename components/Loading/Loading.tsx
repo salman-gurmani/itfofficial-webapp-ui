@@ -3,6 +3,7 @@ import { useAppState } from '../../overmind'
 
 function Loading() {
   const state = useAppState()
+
   if (state.isLoading)
     return (
       <Box

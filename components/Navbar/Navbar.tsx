@@ -20,6 +20,9 @@ import {
   MenuList,
   MenuDivider,
   HStack,
+  Divider,
+  VStack,
+  Spinner,
 } from '@chakra-ui/react'
 import { MdOutlineLogout } from 'react-icons/md'
 import {
@@ -27,45 +30,38 @@ import {
   CloseIcon,
   ChevronDownIcon,
   ChevronRightIcon,
-  ArrowForwardIcon,
 } from '@chakra-ui/icons'
 
 import { css } from '@emotion/react'
 import Image from 'next/image'
 import { HomeImages } from '../Images'
-import { PrimaryButton } from '../uikit'
 import { LanguageSelect } from '../LangaugeSelect'
 import { useTranslation } from 'next-i18next'
 import { useActions, useAppState } from '../../overmind'
+import { AvatarWithCamera } from '../AvatarWithCamera'
+
 const NavigationBar = () => {
   const state = useAppState()
 
-  const { user } = state
+  const { user, isLoading } = state
+
   const { isOpen, onToggle } = useDisclosure()
 
   const boxStyle = css`
     width: 100%;
     z-index: 2;
-    padding: 0.5rem;
-    border-radius: 8px;
-    background-color: white;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.7);
-
-    @media screen and (min-width: 1248px) {
-      position: absolute;
-
-      width: 75%;
-      top: 6%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
+    padding: 0px 32px;
+    background: white;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px -1px rgba(57, 76, 96, 0.15);
   `
 
   return (
     <Box css={boxStyle}>
       <Flex
-        bg={useColorModeValue('white', 'gray.800')}
-        color={useColorModeValue('gray.600', 'white')}
+        color={useColorModeValue('white', 'white')}
         minH={'30px'}
         align={'center'}
       >
@@ -86,14 +82,14 @@ const NavigationBar = () => {
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
           <Image
             {...HomeImages.logo}
-            style={{ maxWidth: 200, maxHeight: 80 }}
+            style={{ maxWidth: 150, maxHeight: 40 }}
             alt="Logo"
           />
 
           <Flex
             display={{ base: 'none', md: 'flex' }}
             alignItems="center"
-            ml={2}
+            ml="24px"
           >
             <DesktopNav />
           </Flex>
@@ -105,10 +101,15 @@ const NavigationBar = () => {
           alignItems="center"
           direction={'row'}
           spacing={2}
+          position="absolute"
+          right={user ? '0px' : '32px'}
         >
+          {isLoading && <Spinner />}
+
           <LanguageSelect />
-          {user && <UserProfile />}
-          {!user && <SignOutUser />}
+
+          {user && !isLoading && <UserProfile />}
+          {!user && !isLoading && <SignOutUser />}
         </Stack>
       </Flex>
 
@@ -122,24 +123,37 @@ const SignOutUser = () => {
   const actions = useActions()
   const { t } = useTranslation()
   return (
-    <>
-      {' '}
-      <PrimaryButton
-        fontFamily="kanit"
-        onClick={() => actions.activeSignInModal(true)}
-        rightIcon={<ArrowForwardIcon />}
-      >
-        {t('login')}
-      </PrimaryButton>
-      <Button
-        colorScheme="red"
-        onClick={() => actions.activeSignUpModal(true)}
-        fontFamily="kanit"
-        variant="outline"
-      >
-        {t('createAnAccount')}
-      </Button>
-    </>
+    <Box>
+      <HStack spacing={4}>
+        <Button
+          fontFamily="kanit"
+          onClick={() => actions.activeSignInModal(true)}
+          fontWeight={400}
+          bg="rgba(64,87,109,.07)"
+          color="blackAlpha.900"
+          size="md"
+          borderRadius="4px"
+          height="40px"
+          width="90px"
+          _hover={{ bg: 'gray.200' }}
+          fontSize={17}
+        >
+          {t('login')}
+        </Button>
+        <Button
+          colorScheme="red"
+          onClick={() => actions.activeSignUpModal(true)}
+          fontFamily="kanit"
+          fontWeight={400}
+          size="md"
+          borderRadius="4px"
+          height="40px"
+          width="90px"
+        >
+          {t('createAnAccount')}
+        </Button>
+      </HStack>
+    </Box>
   )
 }
 const DesktopNav = () => {
@@ -156,7 +170,7 @@ const DesktopNav = () => {
               <Link
                 href={navItem.href ?? '#'}
                 fontSize={{ base: 'xs', sm: 'xs', md: 'xs', xl: 'sm' }}
-                fontFamily="kanit"
+                fontFamily="roboto"
                 fontWeight={500}
                 color={linkColor}
                 outline="none"
@@ -183,6 +197,7 @@ const DesktopNav = () => {
                 }}
               >
                 {t(navItem.label)}
+                {navItem.children && <ChevronDownIcon />}
               </Link>
             </PopoverTrigger>
 
@@ -219,7 +234,7 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
       p={2}
       rounded={'md'}
       _hover={{
-        bg: useColorModeValue('white', 'gray.900'),
+        bg: useColorModeValue('gray.900', 'gray.900'),
         textDecoration: 'none',
       }}
     >
@@ -227,6 +242,7 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
         <Box>
           <Text
             transition={'all .3s ease'}
+            color="black"
             _groupHover={{ color: 'red.400' }}
             fontFamily="kanit"
             fontSize="xs"
@@ -399,22 +415,50 @@ const UserProfile = () => {
           cursor={'pointer'}
           minW={0}
         >
-          <Text>{state.user.displayName}</Text>
-          <Avatar
-            size={'md'}
-            src={
-              'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-            }
-          />
+          <Avatar width="45px" height="45px" name={state.user.displayName} />
         </MenuButton>
-        <MenuList>
-          <MenuItem>Link 1</MenuItem>
-          <MenuItem>Link 2</MenuItem>
+        <MenuList padding={2}>
+          <HStack>
+            <AvatarWithCamera name={state.user.displayName} />
+            <VStack spacing={0}>
+              <Text color="black" fontSize="md" fontFamily="kanit">
+                {state.user.displayName}
+              </Text>
+              <Text color="black">{state.user.email}</Text>
+            </VStack>
+          </HStack>
+
+          <Divider color="black" mb={2} h="4px" />
+          <MenuItem
+            color="black"
+            _hover={{ bg: 'gray.800', color: 'white' }}
+            borderRadius="md"
+            fontFamily="kanit"
+            fontWeight="light"
+          >
+            Account settings
+          </MenuItem>
+          <MenuItem
+            color="black"
+            _hover={{ bg: 'gray.800', color: 'white' }}
+            borderRadius="md"
+            fontFamily="kanit"
+            fontWeight="light"
+          >
+            Membership
+          </MenuItem>
           <MenuDivider />
-          <MenuItem onClick={() => actions.signOut()}>
+          <MenuItem
+            onClick={() => actions.signOut()}
+            color="black"
+            _hover={{ bg: 'gray.800', color: 'white' }}
+            borderRadius="md"
+            fontFamily="kanit"
+            fontWeight="light"
+          >
             <HStack>
               <Icon as={MdOutlineLogout} />
-              <Text>Logout</Text>
+              <Text>Sign out</Text>
             </HStack>
           </MenuItem>
         </MenuList>

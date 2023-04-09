@@ -8,5 +8,4 @@ export const state: State = {
   isForgotModalOpen: false,
   isLoading: true,
   user: null,
-  items: [],
 }
